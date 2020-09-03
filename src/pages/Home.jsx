@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { changeInput, getUserRepo } from "../store/action/githubAction";
+import Result from "../components/Result";
 class Home extends React.Component {
   componentDidMount = async () => {
     this.props.getUserRepo();
@@ -17,6 +18,8 @@ class Home extends React.Component {
         <div className="bg-blue-300 text-gray-700 text-2xl font-bold text-left pl-10 py-5">
           Cari GitHub
         </div>
+
+        {/* search bar */}
         <div className="mx-10">
           <form
             onSubmit={(element) => element.preventDefault()}
@@ -32,6 +35,8 @@ class Home extends React.Component {
             />
           </form>
         </div>
+
+        {/* result */}
         <div className="lg:grid lg:grid-cols-3 gap-5 mx-10 my-10">
           {this.props.users.map((user, index) => (
             <div
@@ -40,24 +45,11 @@ class Home extends React.Component {
                 user.owner.login === "undefined" ? "hidden" : "inline"
               }`}
             >
-              <div className="flex items-center justify-center py-10">
-                <div>
-                  <div className="flex justify-center">
-                    <img
-                      src={user.owner.avatar_url}
-                      alt={user.owner.login}
-                      className="w-32 rounded-full"
-                    />
-                  </div>
-                  <p className="text-xl font-bold my-2 uppercase text-gray-800">
-                    {user.owner.login}
-                  </p>
-                  <p className="text-gray-500">
-                    Repository name :
-                    <span className="text-gray-600"> {user.name}</span>
-                  </p>
-                </div>
-              </div>
+              <Result
+                image={user.owner.avatar_url}
+                user={user.owner.login}
+                repo={user.name}
+              />
             </div>
           ))}
         </div>
